@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultofCodes - Certificate Verifier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .brand-logo {
+      width: 60px;
+      height: 60px;
+    }
+
+    .brand-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #result {
+      margin-top: 20px;
+    }
+
+    .card {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: 0.3s ease-in-out;
+    }
+
+    .card img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .assignment-status span {
+      display: inline-block;
+      margin: 0 6px;
+      font-size: 1.1rem;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #28a745;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      display: none;
+      animation: fadeinout 3s forwards;
+    }
+
+    @keyframes fadeinout {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .spinner {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .spinner.visible {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="brand-header">
+    <img src="https://vaultofcodes.netlify.app/assets/logo.png" alt="VaultofCodes Logo" class="brand-logo" />
+    <h1 class="brand-title">VaultofCodes</h1>
+  </header>
+
+  <main>
+    <div class="container">
+      <input id="identifier" type="text" placeholder="Enter Email or ID" />
+      <button onclick="verifyStudent()">Verify</button>
+      <div id="result"></div>
+      <div class="spinner" id="spinner">Loading...</div>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    function verifyStudent() {
+      const idInput = document.getElementById('identifier');
+      const id = idInput.value.trim();
+      const resultBox = document.getElementById('result');
+      if (!id) return alert('Please enter a valid Email or ID');
+
+      showSpinner(true);
+
+      setTimeout(() => {
+        const student = {
+          name: "Rani Rai",
+          email: "rairani2007@gmail.com",
+          mobile: "9753000000",
+          domain: "Web Development",
+          college: "Kasturba DSEU Pitampura Campus",
+          start: "06 July 2025",
+          duration: "1 Month",
+          photo: "https://via.placeholder.com/130",
+          assignments: [true, true, true, false],
+          certificate: "#"
+        };
+
+        const html = `
+          <div class="card">
+            <img src="${student.photo}" alt="Photo" />
+            <h3>${student.name}</h3>
+            <p>Email: ${student.email}</p>
+            <p>Mobile: ${student.mobile}</p>
+            <p>Domain: ${student.domain}</p>
+            <p>College: ${student.college}</p>
+            <p>Start Date: ${student.start}</p>
+            <p>Duration: ${student.duration}</p>
+            <h4>Assignment Status</h4>
+            <div class="assignment-status">
+              ${student.assignments.map((done, i) => `<span>A${i + 1}: ${done ? '✅' : '❌'}</span>`).join('')}
+            </div>
+            <p>Status: Completed</p>
+            <a href="${student.certificate}" target="_blank">View Certificate</a>
+          </div>
+        `;
+
+        resultBox.innerHTML = html;
+        showSpinner(false);
+        showToast('✅ Student data loaded.');
+      }, 1200);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    function showSpinner(show) {
+      const spinner = document.getElementById('spinner');
+      spinner.className = show ? 'spinner visible' : 'spinner';
+    }
+  </script>
+</body>
+</html>
+
